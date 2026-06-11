@@ -1,29 +1,33 @@
 package com.example.app_restaurante
 
+import android.R.attr.type
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.app_restaurante.ui.theme.App_restauranteTheme
+import com.example.app_restaurante.viewmodel.BiteBoxViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             App_restauranteTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    AppNavigation() // Aquí iniciamos nuestro mapa de navegación
                 }
             }
         }
@@ -31,17 +35,42 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun AppNavigation() {
+    // 1. Creamos el controlador de navegación y traemos nuestro ViewModel
+    val navController = rememberNavController()
+    val viewModel: BiteBoxViewModel = viewModel()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    App_restauranteTheme {
-        Greeting("Android")
+    // 2. El NavHost es el mapa. Le decimos que empiece en la ruta "login"
+    NavHost(navController = navController, startDestination = "login") {
+
+        // PANTALLA 1: Login
+        composable("login") {
+            // (Paso 3) Aquí irá el diseño del Login
+        }
+
+        // PANTALLA 2: Menú del Catálogo
+        // Nota: Le indicamos que en su ruta va a recibir una variable tipo String llamada "nombreUsuario"
+        composable(
+            route = "menu/{nombreUsuario}",
+            arguments = listOf(navArgument("nombreUsuario") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val nombre = backStackEntry.arguments?.getString("nombreUsuario") ?: ""
+            // (Paso 4) Aquí irá el diseño del Menú, y le pasaremos el 'nombre'
+        }
+
+        // PANTALLA 3: Detalles del platillo
+        // Nota: Le indicamos que en su ruta va a recibir una variable tipo Entero (Int) llamada "platilloId"
+        composable(
+            route = "detalle/{platilloId}",
+            arguments = listOf(navArgument("platilloId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt("platilloId") ?: 0
+            // (Paso 5) Aquí irá el diseño de los Detalles, y le pasaremos el 'id'
+        }
+
+        // PANTALLA 4: Carrito de compras
+        composable("carrito") {
+            // (Paso 6) Aquí irá el diseño del Carrito
+        }
     }
 }
