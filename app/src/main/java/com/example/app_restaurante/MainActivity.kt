@@ -44,8 +44,9 @@ fun AppNavigation() {
     NavHost(navController = navController, startDestination = "login") {
 
         // PANTALLA 1: Login
+        // PANTALLA 1: Login
         composable("login") {
-            // (Paso 3) Aquí irá el diseño del Login
+            com.example.app_restaurante.screens.LoginScreen(navController)
         }
 
         // PANTALLA 2: Menú del Catálogo
