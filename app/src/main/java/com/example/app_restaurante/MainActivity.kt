@@ -72,8 +72,9 @@ fun AppNavigation() {
         }
 
         // PANTALLA 4: Carrito de compras
+        // PANTALLA 4: Carrito de compras
         composable("carrito") {
-            // (Paso 6) Aquí irá el diseño del Carrito
+            com.example.app_restaurante.screens.CarritoScreen(navController, viewModel)
         }
     }
 }
