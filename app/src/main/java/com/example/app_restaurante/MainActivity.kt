@@ -51,22 +51,24 @@ fun AppNavigation() {
 
         // PANTALLA 2: Menú del Catálogo
         // Nota: Le indicamos que en su ruta va a recibir una variable tipo String llamada "nombreUsuario"
+        // PANTALLA 2: Menú del Catálogo
         composable(
             route = "menu/{nombreUsuario}",
             arguments = listOf(navArgument("nombreUsuario") { type = NavType.StringType })
         ) { backStackEntry ->
             val nombre = backStackEntry.arguments?.getString("nombreUsuario") ?: ""
-            // (Paso 4) Aquí irá el diseño del Menú, y le pasaremos el 'nombre'
+            com.example.app_restaurante.screens.MenuScreen(navController, viewModel, nombre)
         }
 
         // PANTALLA 3: Detalles del platillo
         // Nota: Le indicamos que en su ruta va a recibir una variable tipo Entero (Int) llamada "platilloId"
+        // PANTALLA 3: Detalles del platillo
         composable(
             route = "detalle/{platilloId}",
             arguments = listOf(navArgument("platilloId") { type = NavType.IntType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("platilloId") ?: 0
-            // (Paso 5) Aquí irá el diseño de los Detalles, y le pasaremos el 'id'
+            com.example.app_restaurante.screens.DetalleScreen(navController, viewModel, id)
         }
 
         // PANTALLA 4: Carrito de compras
