@@ -60,7 +60,7 @@ fun AppNavigation() {
             com.example.app_restaurante.screens.MenuScreen(navController, viewModel, nombre)
         }
 
-        // PANTALLA 3: Detalles del platillo
+        // PANTALLA 3: Detalles del Platillo
         // Nota: Le indicamos que en su ruta va a recibir una variable tipo Entero (Int) llamada "platilloId"
         // PANTALLA 3: Detalles del platillo
         composable(
